@@ -21,6 +21,7 @@ describe("Xml parser and template tests", () => {
       XPathResult.FIRST_ORDERED_NODE_TYPE,
       null
     );
+    expect(result.singleNodeValue).not.toBeNull();
     expect(result.singleNodeValue.nodeName).toEqual("HALNyConfiguration");
   });
 });
