@@ -1,5 +1,3 @@
-import { number } from "prop-types";
-
 export const RouterMode = "ROUTER";
 export const BridgeMode = "BRIDGE";
 export const CONNECTION_MODE_DHCP = "DHCP";
