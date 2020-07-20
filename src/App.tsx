@@ -9,6 +9,8 @@ import { TabNavigator } from "./components/TabNavigator";
 import { WanConfigForm } from "./components/WanConfigForm";
 import { LanConfigForm } from "./components/LanConfigForm";
 import { Grid } from "@material-ui/core";
+import { RateLimitConfigForm } from "./components/RateLimitConfigForm";
+import { SipAccountConfigForm } from "./components/SipAccountConfigForm";
 const parser = new DOMParser();
 const xmlserialzier = new XMLSerializer();
 function App() {
@@ -24,39 +26,37 @@ function App() {
   return (
     <div className="App">
       <TabNavigator>
-        <Fragment>
-          <Section name="WAN1">
-            <WanConfigForm name="WAN1" onChange={(state) => {}}></WanConfigForm>
-          </Section>
-          <Section name="WAN2">
-            <WanConfigForm name="WAN2" onChange={(state) => {}}></WanConfigForm>
-          </Section>
-          <Section name="WAN3">
-            <WanConfigForm name="WAN3" onChange={(state) => {}}></WanConfigForm>
-          </Section>
-          <Section name="WAN4">
-            <WanConfigForm name="WAN4" onChange={(state) => {}}></WanConfigForm>
-          </Section>
-        </Fragment>
-        <Grid
-          container
-          direction="column"
-          spacing={1}
-        >
-          <Grid item>
-            <LanConfigForm name="LAN1" onChange={(state) => {}}></LanConfigForm>
+        <Grid container spacing={3} direction="column" alignItems="center">
+          <Grid item xs>
+            <WanConfigForm name="WAN1" onChange={(state) => {}} />
           </Grid>
-
-          <Grid item>
-            <LanConfigForm name="LAN2" onChange={(state) => {}}></LanConfigForm>
+          <Grid item xs>
+            <WanConfigForm name="WAN2" onChange={(state) => {}} />
           </Grid>
-          <Grid item>
-            <LanConfigForm name="LAN3" onChange={(state) => {}}></LanConfigForm>
+          <Grid item xs>
+            <WanConfigForm name="WAN3" onChange={(state) => {}} />
           </Grid>
-          <Grid item>
-            <LanConfigForm name="LAN4" onChange={(state) => {}}></LanConfigForm>
+          <Grid item xs>
+            <WanConfigForm name="WAN4" onChange={(state) => {}} />
           </Grid>
         </Grid>
+
+        <Grid container direction="column" spacing={3} alignItems="center">
+          <Grid item xs>
+            <LanConfigForm name="LAN1" onChange={(state) => {}} />
+          </Grid>
+          <Grid item xs>
+            <LanConfigForm name="LAN2" onChange={(state) => {}} />
+          </Grid>
+          <Grid item xs>
+            <LanConfigForm name="LAN3" onChange={(state) => {}} />
+          </Grid>
+          <Grid item xs>
+            <LanConfigForm name="LAN4" onChange={(state) => {}} />
+          </Grid>
+        </Grid>
+        <RateLimitConfigForm name={"Rate Limit"}></RateLimitConfigForm>
+        <SipAccountConfigForm></SipAccountConfigForm>
       </TabNavigator>
     </div>
   );

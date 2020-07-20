@@ -2,28 +2,17 @@ import React, { useState, ChangeEvent, FC, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
-import {
-  Card,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  Paper,
-} from "@material-ui/core";
+import { Card, MenuItem, TextField, Select, Paper } from "@material-ui/core";
 import { LabeledCheckBox } from "./LabeledCheckbox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
     width: 450,
-    flexDirection: "column",
-    alignItems: "center",
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
   },
   formControl: {
     width: 400,
     margin: theme.spacing(3),
-    justifyContent: "space-around",
   },
   card: {
     margin: 5,
@@ -50,6 +39,8 @@ export const WanConfigForm: FC<Props> = (props) => {
   const classes = useStyles();
   const [formActive, setFormActive] = useState(true);
   const [selectedMode, setSelectedMode] = useState("ROUTER");
+  const [vlanIdValue, setVlanIdValue] = useState("");
+  const [cosValue, setCosValue] = useState("");
   const [selectedConnectionType, setSelectedConnectionType] = useState("DHCP");
   const [lanState, setLanState] = useState({
     LAN1: false,
@@ -64,6 +55,14 @@ export const WanConfigForm: FC<Props> = (props) => {
 
   const handleFormActiveChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormActive(event.target.checked);
+  };
+
+  const handleVlanIdValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setVlanIdValue(event.target.value);
+  };
+
+  const handleCosValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCosValue(event.target.value);
   };
 
   const handleSelectChange = (event: any) => {
@@ -88,7 +87,7 @@ export const WanConfigForm: FC<Props> = (props) => {
   };
 
   return (
-    <div className={classes.root}>
+    <Paper className={classes.root} elevation={5}>
       <LabeledCheckBox
         checked={formActive}
         name="active"
@@ -101,10 +100,7 @@ export const WanConfigForm: FC<Props> = (props) => {
         disabled={!formActive}
       >
         <FormGroup>
-          <Select
-            value={selectedMode}
-            onChange={handleSelectChange}
-          >
+          <Select value={selectedMode} onChange={handleSelectChange}>
             <MenuItem value={"ROUTER"}>ROUTER</MenuItem>
             <MenuItem value={"BRIDGE"}>BRIDGE</MenuItem>
           </Select>
@@ -117,8 +113,20 @@ export const WanConfigForm: FC<Props> = (props) => {
                 <MenuItem value={"DHCP"}>DHCP</MenuItem>
                 <MenuItem value={"PPPOE"}>PPPOE</MenuItem>
               </Select>
-              <TextField type="number" label="Vlan Id"></TextField>
-              <TextField type="number" label="COS"></TextField>
+              <TextField
+                disabled={!formActive}
+                type="number"
+                label="Vlan Id"
+                value={vlanIdValue}
+                onChange={handleVlanIdValueChange}
+              ></TextField>
+              <TextField
+                disabled={!formActive}
+                type="number"
+                label="COS"
+                value={cosValue}
+                onChange={handleCosValueChange}
+              ></TextField>
             </Fragment>
           )}
           <Card className={classes.card}>
@@ -163,6 +171,6 @@ export const WanConfigForm: FC<Props> = (props) => {
           </Card>
         </FormGroup>
       </FormControl>
-    </div>
+    </Paper>
   );
 };

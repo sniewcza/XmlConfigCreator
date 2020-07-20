@@ -5,15 +5,18 @@ import {
   MenuItem,
   Select,
   Typography,
+  Paper,
 } from "@material-ui/core";
 import { LabeledCheckBox } from "./LabeledCheckbox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    width: 450,
     flexDirection: "column",
     alignItems: "center",
+    paddingTop: 15,
+    paddingBottom: 15,
+    width: 400,
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
   },
 }));
@@ -39,7 +42,7 @@ export const LanConfigForm: FC<Props> = (props) => {
     setSelectedMode(event.target.value);
   };
   return (
-    <Box mx="auto" py={2} className={classes.root}>
+    <Paper className={classes.root} elevation={5}>
       <Typography>{props.name}</Typography>
       <LabeledCheckBox
         checked={formActive}
@@ -50,6 +53,6 @@ export const LanConfigForm: FC<Props> = (props) => {
       <Select value={selectedMode} onChange={handleSelectChange}>
         <MenuItem value={"AUTO"}>AUTO</MenuItem>
       </Select>
-    </Box>
+    </Paper>
   );
 };

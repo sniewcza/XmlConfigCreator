@@ -19,7 +19,7 @@ export const TabNavigator: FC = (props) => {
       <Tabs
         centered
         className={classes.root}
-        value={1}
+        value={selectedTab}
         indicatorColor="primary"
         textColor="primary"
         onChange={handleChange}
