@@ -15,6 +15,7 @@ import { LabeledCheckBox } from "./LabeledCheckbox";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    width: 450,
     flexDirection: "column",
     alignItems: "center",
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -101,7 +102,6 @@ export const WanConfigForm: FC<Props> = (props) => {
       >
         <FormGroup>
           <Select
-            labelId="2"
             value={selectedMode}
             onChange={handleSelectChange}
           >
