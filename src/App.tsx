@@ -15,6 +15,7 @@ import {
   SipAccountConfigForm,
   SipFormState
 } from "./components/SipAccountConfigForm";
+import { IPv4ConfigForm, IPv4FormState } from "./components/IPv4ConfigForm";
 
 const parser = new DOMParser();
 const xmlserialzier = new XMLSerializer();
@@ -50,6 +51,15 @@ const wanFormInitialState: WanFormState = {
   wlan5gActive: true
 };
 
+const ipv4InitialState: IPv4FormState = {
+  ipAddress: "",
+  netmask: "",
+  dhcpEnabled: false,
+  dhcpPoolEnd: "",
+  dhcpPoolStart: "",
+  gateway: ""
+};
+
 function App() {
   const saveTestFile = () => {
     const document = parser.parseFromString(Template, "text/xml");
@@ -59,19 +69,24 @@ function App() {
     });
     saveAs(file);
   };
-  const [sipFormState, setSipFormState] = useState(sipAccountInitialState);
-  const [rateLimitFormState, setRateLimitFormState] = useState(
-    rateLimitInitialState
-  );
-  const [lan1State, setLan1State] = useState(lanFormInitialState);
-  const [lan2State, setLan2State] = useState(lanFormInitialState);
-  const [lan3State, setLan3State] = useState(lanFormInitialState);
-  const [lan4State, setLan4State] = useState(lanFormInitialState);
-        
   const [wan1State, setWan1State] = useState(wanFormInitialState);
   const [wan2State, setWan2State] = useState(wanFormInitialState);
   const [wan3State, setWan3State] = useState(wanFormInitialState);
   const [wan4State, setWan4State] = useState(wanFormInitialState);
+
+  const [lan1State, setLan1State] = useState(lanFormInitialState);
+  const [lan2State, setLan2State] = useState(lanFormInitialState);
+  const [lan3State, setLan3State] = useState(lanFormInitialState);
+  const [lan4State, setLan4State] = useState(lanFormInitialState);
+
+  const [ipv4State, setIPv4State] = useState(ipv4InitialState);
+
+  const [sipFormState, setSipFormState] = useState(sipAccountInitialState);
+
+  const [rateLimitFormState, setRateLimitFormState] = useState(
+    rateLimitInitialState
+  );
+
   return (
     <div className="App">
       <TabNavigator>
@@ -133,6 +148,13 @@ function App() {
               name="LAN4"
               initialState={lan4State}
               onChange={(name, state) => setLan4State(state)}
+            />
+          </Grid>
+          <Grid item xs>
+            <IPv4ConfigForm
+              name="IPv4"
+              initialState={ipv4State}
+              onChange={(name, state) => setIPv4State(state)}
             />
           </Grid>
         </Grid>
