@@ -1,27 +1,30 @@
-import React, { useState, ChangeEvent, FC, Fragment } from "react";
+import React, { useState, ChangeEvent, FC, Fragment, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import { Card, MenuItem, TextField, Select, Paper } from "@material-ui/core";
 import { LabeledCheckBox } from "./LabeledCheckbox";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: 450,
-    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)"
   },
   formControl: {
     width: 400,
-    margin: theme.spacing(3),
+    margin: theme.spacing(3)
   },
   card: {
-    margin: 5,
-  },
+    margin: 5
+  }
 }));
 
-interface FormState {
+export interface WanFormState {
   active: boolean;
   selectedMode: string;
+  selectedConnectionType: string;
+  vlanId: string;
+  cos: string;
   lan1Active: boolean;
   lan2Active: boolean;
   lan3Active: boolean;
@@ -29,29 +32,56 @@ interface FormState {
   wlan2_4gActive: boolean;
   wlan5gActive: boolean;
 }
+
 interface Props {
-  initialState?: FormState;
+  initialState: WanFormState;
   name: string;
-  onChange: (state: FormState) => void;
+  onChange: (name: string, state: WanFormState) => void;
 }
 
-export const WanConfigForm: FC<Props> = (props) => {
+export const WanConfigForm: FC<Props> = ({ name, initialState, onChange }) => {
   const classes = useStyles();
-  const [formActive, setFormActive] = useState(true);
-  const [selectedMode, setSelectedMode] = useState("ROUTER");
-  const [vlanIdValue, setVlanIdValue] = useState("");
-  const [cosValue, setCosValue] = useState("");
-  const [selectedConnectionType, setSelectedConnectionType] = useState("DHCP");
+  const [formActive, setFormActive] = useState(initialState.active);
+  const [selectedMode, setSelectedMode] = useState(initialState.selectedMode);
+  const [vlanIdValue, setVlanIdValue] = useState(initialState.vlanId);
+  const [cosValue, setCosValue] = useState(initialState.cos);
+  const [selectedConnectionType, setSelectedConnectionType] = useState(
+    initialState.selectedConnectionType
+  );
   const [lanState, setLanState] = useState({
-    LAN1: false,
-    LAN2: false,
-    LAN3: false,
-    LAN4: false,
+    LAN1: initialState.lan1Active,
+    LAN2: initialState.lan2Active,
+    LAN3: initialState.lan3Active,
+    LAN4: initialState.lan4Active
   });
   const [wlanState, setWlanState] = useState({
-    wlan2_4g: false,
-    wlan5g: false,
+    wlan2_4g: initialState.wlan2_4gActive,
+    wlan5g: initialState.wlan5gActive
   });
+
+  useEffect(() => {
+    onChange(name, {
+      active: formActive,
+      selectedMode,
+      selectedConnectionType,
+      vlanId: vlanIdValue,
+      cos: cosValue,
+      lan1Active: lanState.LAN1,
+      lan2Active: lanState.LAN2,
+      lan3Active: lanState.LAN3,
+      lan4Active: lanState.LAN4,
+      wlan2_4gActive: wlanState.wlan2_4g,
+      wlan5gActive: wlanState.wlan5g
+    });
+  }, [
+    formActive,
+    selectedMode,
+    vlanIdValue,
+    cosValue,
+    selectedConnectionType,
+    lanState,
+    wlanState
+  ]);
 
   const handleFormActiveChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormActive(event.target.checked);
@@ -75,14 +105,14 @@ export const WanConfigForm: FC<Props> = (props) => {
   const handleLanStateChange = (event: any) => {
     setLanState({
       ...lanState,
-      [event.target.name]: event.target.checked,
+      [event.target.name]: event.target.checked
     });
   };
 
   const handleWlanStateChange = (event: any) => {
     setWlanState({
       ...wlanState,
-      [event.target.name]: event.target.checked,
+      [event.target.name]: event.target.checked
     });
   };
 

@@ -1,15 +1,14 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState, ChangeEvent, useEffect } from "react";
 import {
   makeStyles,
-  Box,
   MenuItem,
   Select,
   Typography,
-  Paper,
+  Paper
 } from "@material-ui/core";
 import { LabeledCheckBox } from "./LabeledCheckbox";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -17,23 +16,32 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 15,
     paddingBottom: 15,
     width: 400,
-    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-  },
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)"
+  }
 }));
 
-interface FormState {
+export interface LanFormState {
   enabled: boolean;
   mode: string;
 }
 
 interface Props {
   name: string;
-  onChange: (state: FormState) => void;
+  initialState: LanFormState;
+  onChange: (name: string, state: LanFormState) => void;
 }
-export const LanConfigForm: FC<Props> = (props) => {
+
+export const LanConfigForm: FC<Props> = ({ name, initialState, onChange }) => {
   const classes = useStyles();
-  const [formActive, setFormActive] = useState(true);
-  const [selectedMode, setSelectedMode] = useState("AUTO");
+  const [formActive, setFormActive] = useState(initialState.enabled);
+  const [selectedMode, setSelectedMode] = useState(initialState.mode);
+
+  useEffect(() => {
+    onChange(name, {
+      enabled: formActive,
+      mode: selectedMode
+    });
+  }, [formActive, selectedMode]);
 
   const handleFormActiveChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormActive(event.target.checked);
@@ -43,7 +51,7 @@ export const LanConfigForm: FC<Props> = (props) => {
   };
   return (
     <Paper className={classes.root} elevation={5}>
-      <Typography>{props.name}</Typography>
+      <Typography>{name}</Typography>
       <LabeledCheckBox
         checked={formActive}
         name="active"
