@@ -89,7 +89,7 @@ function App() {
 
   return (
     <div className="App">
-      <TabNavigator>
+      <TabNavigator onSaveAction={saveTestFile}>
         <Grid container spacing={3} direction="column" alignItems="center">
           <Grid item xs>
             <WanConfigForm

@@ -1,13 +1,17 @@
 import React, { FC, Fragment, useState } from "react";
-import { Tabs, Tab, makeStyles, Box } from "@material-ui/core";
+import { Tabs, Tab, makeStyles, Box, Button } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     marginBottom: 5,
-    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-  },
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)"
+  }
 }));
-export const TabNavigator: FC = (props) => {
+
+interface Props {
+  onSaveAction?: () => void;
+}
+export const TabNavigator: FC<Props> = props => {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(0);
   const handleChange = (event: any, value: number) => {
@@ -24,10 +28,19 @@ export const TabNavigator: FC = (props) => {
         textColor="primary"
         onChange={handleChange}
       >
-        <Tab label="WAN" aria-controls={`simple-tabpanel-${0}`} />
+        <Tab label="WAN" />
         <Tab label="LAN" />
         <Tab label="RATE LIMIT" />
         <Tab label="VOIP" />
+        {props.onSaveAction && (
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={props.onSaveAction}
+          >
+            Save
+          </Button>
+        )}
       </Tabs>
       {React.Children.map(props.children, (child, index) => (
         <TabPanel value={selectedTab} index={index}>
